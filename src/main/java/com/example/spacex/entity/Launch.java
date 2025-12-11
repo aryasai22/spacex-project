@@ -27,6 +27,7 @@ public class Launch {
 
     private String missionStatus;
 
+    @Column(columnDefinition = "TEXT")
     private String payloadIds;
 
     public Launch() {

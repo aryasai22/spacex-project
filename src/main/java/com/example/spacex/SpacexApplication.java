@@ -17,9 +17,16 @@ public class SpacexApplication {
     @Bean
     public CommandLineRunner run(SpaceXApiService spaceXApiService) {
         return args -> {
+
+
             spaceXApiService.loadRocketsIntoDB();
-            System.out.println("Rocket data saved successfully.");
+
+
+            spaceXApiService.loadLaunchesIntoDB();
+
+            System.out.println("Data load complete.");
         };
     }
+
 
 }
