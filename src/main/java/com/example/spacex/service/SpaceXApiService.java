@@ -9,6 +9,7 @@ import com.example.spacex.mapper.RocketMapper;
 import com.example.spacex.repository.LaunchRepository;
 import com.example.spacex.repository.RocketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +21,7 @@ public class SpaceXApiService {
     private final LaunchRepository launchRepository;
 
     @Autowired
-    public SpaceXApiService(RestTemplate restTemplate, RocketRepository rocketRepository,  LaunchRepository launchRepository) {
+    public SpaceXApiService(RestTemplate restTemplate, RocketRepository rocketRepository, LaunchRepository launchRepository) {
         this.restTemplate = restTemplate;
         this.rocketRepository = rocketRepository;
         this.launchRepository = launchRepository;
@@ -66,6 +67,16 @@ public class SpaceXApiService {
         }
 
         System.out.println("Launches successfully saved into DB.");
+    }
+
+    @Scheduled(cron = "0 0 */12 * * *")
+    public void scheduledSync() {
+        System.out.println("Running scheduled SpaceX sync...");
+
+        loadLaunchesIntoDB();
+        loadRocketsIntoDB();
+
+        System.out.println("SpaceX sync complete. ");
     }
 
 
